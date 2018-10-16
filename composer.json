@@ -1,0 +1,13 @@
+{
+    "name": "vendi-advertising/vendi-asset-loader",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Chris Haas",
+            "email": "chris@vendiadvertising.com"
+        }
+    ],
+    "require": {
+        "webmozart/path-util": "^2.3"
+    }
+}
