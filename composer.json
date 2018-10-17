@@ -14,10 +14,10 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.10.2",
         "jakub-onderka/PHP-Parallel-Lint": "dev-master",
-        "phpunit/phpunit": "^4 || ^5 || ^6",
-        "sensiolabs/security-checker": "^4.1",
+        "sensiolabs/security-checker": "^5",
         "symfony/var-dumper": "^4",
-        "symfony/debug": "^4.1"
+        "symfony/debug": "^4.1",
+        "phpunit/phpunit": "^7"
     },
     "config": {
         "optimize-autoloader": true
