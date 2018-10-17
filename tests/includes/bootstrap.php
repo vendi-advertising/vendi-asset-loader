@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 define('VENDI_ASSET_LOADER_TEST_DIR', \dirname(__DIR__));
 
