@@ -17,7 +17,8 @@
         "sensiolabs/security-checker": "^5",
         "symfony/var-dumper": "^4",
         "symfony/debug": "^4.1",
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "^7",
+        "johnkary/phpunit-speedtrap": "^3.0"
     },
     "config": {
         "optimize-autoloader": true

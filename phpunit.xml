@@ -1,5 +1,5 @@
 <phpunit
-    bootstrap="tests/bootstrap.php"
+    bootstrap="tests/includes/bootstrap.php"
     backupGlobals="false"
     colors="true"
     convertErrorsToExceptions="true"
@@ -7,13 +7,13 @@
     convertWarningsToExceptions="true"
     >
     <testsuites>
-        <testsuite>
+        <testsuite name="Main">
             <directory prefix="test-" suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
 
     <logging>
-        <log type="coverage-html" target="tests/logs/coverage" charset="UTF-8" />
+        <log type="coverage-html" target="tests/logs/coverage" />
         <log type="coverage-clover" target="tests/logs/clover.xml"/>
     </logging>
 
@@ -22,14 +22,14 @@
         <whitelist>
             <directory suffix=".php">./src/</directory>
         </whitelist>
-
+<!--
         <blacklist>
           <directory suffix=".php">./tests/</directory>
-        </blacklist>
+        </blacklist> -->
     </filter>
 
     <listeners>
-        <listener class="SpeedTrapListener" file="tests/includes/speed-trap-listener.php">
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
             <arguments>
                 <array>
                     <element key="slowThreshold">
