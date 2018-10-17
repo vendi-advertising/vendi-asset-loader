@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Vendi\VendiAssetLoader\Css;
 
-use Webmozart\PathUtil\Path;
-
 final class SimpleCssLoader extends CssLoaderBase
 {
     public function enqueue_files()

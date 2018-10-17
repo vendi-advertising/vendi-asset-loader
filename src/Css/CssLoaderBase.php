@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vendi\VendiAssetLoader\Css;
 
 use Vendi\VendiAssetLoader\CommonLoaderBase;
-use Webmozart\PathUtil\Path;
 
 abstract class CssLoaderBase extends CommonLoaderBase
 {
@@ -15,22 +14,21 @@ abstract class CssLoaderBase extends CommonLoaderBase
     {
         $files = $this->get_files('css', $type);
 
-        if(!$files){
+        if (!$files) {
             return;
         }
 
         //Call the actual worker. If we weren't given a type assume it is just screen
         //TODO: Maybe change screen to all? Vendi has used screen so we might
         //want to keep that for backwards compatibility.
-        $this->actually_enqueue_files($files, $media_dir, $media_url, $type ? $type : 'screen' );
+        $this->actually_enqueue_files($files, $media_dir, $media_url, $type ? $type : 'screen');
     }
 
     final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, string $type)
     {
-        foreach( $files as $t ){
-
-            $basename_with_extension    = \basename( $t );
-            $basename_without_extension = \basename( $t, '.css' );
+        foreach ($files as $t) {
+            $basename_with_extension    = \basename($t);
+            $basename_without_extension = \basename($t, '.css');
 
             \wp_enqueue_style(
                                 //Handle
@@ -43,7 +41,7 @@ abstract class CssLoaderBase extends CommonLoaderBase
                                 null,
 
                                 //Version cache buster
-                                \filemtime( "{$media_dir}/{$basename_with_extension}" ),
+                                \filemtime("{$media_dir}/{$basename_with_extension}"),
 
                                 //Media type
                                 $type
