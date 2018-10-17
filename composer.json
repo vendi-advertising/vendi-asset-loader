@@ -18,7 +18,8 @@
         "symfony/var-dumper": "^4",
         "symfony/debug": "^4.1",
         "phpunit/phpunit": "^7",
-        "johnkary/phpunit-speedtrap": "^3.0"
+        "johnkary/phpunit-speedtrap": "^3.0",
+        "mikey179/vfsStream": "^1.6"
     },
     "config": {
         "optimize-autoloader": true

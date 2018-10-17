@@ -28,11 +28,25 @@ if (! function_exists('get_template_directory_uri')) {
 if (!function_exists('wp_enqueue_script')) {
     function wp_enqueue_script($handle, $url, $deps, $version, $in_footer)
     {
+        global $vendi_asset_scripts;
+
+        if(!is_array($vendi_asset_scripts)){
+            $vendi_asset_scripts = [];
+        }
+
+        $vendi_asset_scripts[$handle] = [$handle, $url, $deps, $version, $in_footer];
     }
 }
 
 if (!function_exists('wp_enqueue_style')) {
     function wp_enqueue_style($handle, $url, $deps, $version, $media)
     {
+        global $vendi_asset_styles;
+
+        if(!is_array($vendi_asset_styles)){
+            $vendi_asset_styles = [];
+        }
+
+        $vendi_asset_styles[$handle] = [$handle, $url, $deps, $version, $media];
     }
 }
