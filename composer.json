@@ -8,6 +8,22 @@
         }
     ],
     "require": {
-        "webmozart/path-util": "^2.3"
+        "webmozart/path-util": "^2.3",
+        "symfony/polyfill-php71": "^1.9"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.10.2",
+        "jakub-onderka/PHP-Parallel-Lint": "dev-master",
+        "phpunit/phpunit": "^4 || ^5 || ^6",
+        "sensiolabs/security-checker": "^4.1",
+        "symfony/var-dumper": "^4",
+        "symfony/debug": "^4.1"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "autoload": {
+        "psr-4": {"Vendi\\VendiAssetLoader\\": "src/"},
+        "files": ["src/Functions.php"]
     }
 }
