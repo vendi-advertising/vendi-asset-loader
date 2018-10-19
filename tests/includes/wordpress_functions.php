@@ -30,7 +30,7 @@ if (!function_exists('wp_enqueue_script')) {
     {
         global $vendi_asset_scripts;
 
-        if(!is_array($vendi_asset_scripts)){
+        if (!is_array($vendi_asset_scripts)) {
             $vendi_asset_scripts = [];
         }
 
@@ -43,7 +43,7 @@ if (!function_exists('wp_enqueue_style')) {
     {
         global $vendi_asset_styles;
 
-        if(!is_array($vendi_asset_styles)){
+        if (!is_array($vendi_asset_styles)) {
             $vendi_asset_styles = [];
         }
 

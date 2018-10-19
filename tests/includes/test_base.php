@@ -7,6 +7,9 @@ namespace Vendi\VendiAssetLoader\tests;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class test_base extends TestCase
 {
     //This is name of our FS root for testing
@@ -26,6 +29,7 @@ class test_base extends TestCase
         }
         return $this->_root;
     }
+
     public function get_root_dir_name_no_trailing_slash()
     {
         return $this->_test_root_name;
