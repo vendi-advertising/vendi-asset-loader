@@ -8,8 +8,6 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class CssLoaderBase extends CommonLoaderBase
 {
-    abstract public function enqueue_files() : int;
-
     final public function enqueue_files_with_optional_type(string $type = null) : int
     {
         $files = $this->get_files('css', $type);

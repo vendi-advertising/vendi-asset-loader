@@ -8,8 +8,6 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class JsLoaderBase extends CommonLoaderBase
 {
-    abstract public function enqueue_files() : int;
-
     final public function enqueue_files_with_optional_high_low(bool $in_footer, string $extra_folder = null) : int
     {
         $files = $this->get_files('js', $extra_folder);
