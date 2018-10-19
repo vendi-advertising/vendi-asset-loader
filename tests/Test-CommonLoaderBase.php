@@ -24,7 +24,7 @@ class Test_CommonLoaderBase extends test_base
         $current_test_dir = null;
     }
 
-    private function _get_class_for__get_dir_and_url_tuple()
+    private function _get_obj_for_testing()
     {
         return new  class extends CommonLoaderBase
                     {
@@ -48,7 +48,7 @@ class Test_CommonLoaderBase extends test_base
         $current_test_url = 'http://www.example.net/';
         $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
 
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
 
         $ret = $obj->_get_dir_and_url_tuple('cheese');
 
@@ -75,7 +75,7 @@ class Test_CommonLoaderBase extends test_base
         $current_test_url = 'http://www.example.net/';
         $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
 
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
 
         $ret = $obj->_get_dir_and_url_tuple('cheese', 'beta');
 
@@ -102,7 +102,7 @@ class Test_CommonLoaderBase extends test_base
         $current_test_url = 'http://www.example.net/';
         $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
 
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
 
         //This type is not valid
         $this->expectException(\Exception::class);
@@ -121,7 +121,7 @@ class Test_CommonLoaderBase extends test_base
         $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
 
         //Dir does not exist, should return null
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
         $this->assertNull($obj->get_files('css'));
     }
 
@@ -144,7 +144,7 @@ class Test_CommonLoaderBase extends test_base
         touch(Path::join($css_folder_abs, 'test.css'));
 
         //Dir has two files that match pattern
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
         $this->assertCount(2, $obj->get_files('css'));
     }
 
@@ -172,7 +172,7 @@ class Test_CommonLoaderBase extends test_base
         touch(Path::join($css_subfolder_abs, 'test.css'));
 
         //Dir has two files that match pattern
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
         $this->assertCount(2, $obj->get_files('css', 'print'));
     }
 
@@ -191,7 +191,7 @@ class Test_CommonLoaderBase extends test_base
         mkdir($css_folder_abs);
 
         //Dir empty, should return null
-        $obj = $this->_get_class_for__get_dir_and_url_tuple();
+        $obj = $this->_get_obj_for_testing();
         $this->assertNull($obj->get_files('css'));
     }
 }
