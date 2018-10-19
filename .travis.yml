@@ -12,6 +12,7 @@ matrix:
     - php: nightly
   allow_failures:
     - php: nightly
+    - php: 7.3
 
 script:
   - cd $TRAVIS_BUILD_DIR
