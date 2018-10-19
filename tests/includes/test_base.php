@@ -34,4 +34,37 @@ class test_base extends TestCase
     {
         return $this->_test_root_name;
     }
+
+    public function setUp()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        global $vendi_asset_styles;
+        global $vendi_asset_scripts;
+        global $apply_filters_function;
+
+        $current_test_dir = null;
+        $current_test_url = null;
+        $vendi_asset_styles = null;
+        $vendi_asset_scripts = null;
+        $apply_filters_function = null;
+
+        $this->get_vfs_root();
+    }
+
+    public function tearDown()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        global $vendi_asset_styles;
+        global $vendi_asset_scripts;
+        global $apply_filters_function;
+
+        $current_test_dir = null;
+        $current_test_url = null;
+        $vendi_asset_styles = null;
+        $vendi_asset_scripts = null;
+        $apply_filters_function = null;
+    }
+
 }

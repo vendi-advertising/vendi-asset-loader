@@ -18,6 +18,8 @@ abstract class JsLoaderBase extends CommonLoaderBase
             return 0;
         }
 
+        extract($this->_get_dir_and_url_tuple('js', $extra_folder));
+
         //Call the actual worker
         return $this->actually_enqueue_files($files, $media_dir, $media_url, $in_footer);
     }

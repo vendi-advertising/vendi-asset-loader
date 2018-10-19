@@ -5,7 +5,14 @@ declare(strict_types=1);
 if (! function_exists('apply_filters')) {
     function apply_filters($tag, $value)
     {
-        return $value;
+        global $apply_filters_function;
+        if(!is_callable($apply_filters_function)){
+            return $value;
+        }
+
+        $args = func_get_args();
+        array_shift($args);
+        return $apply_filters_function(...$args);
     }
 }
 

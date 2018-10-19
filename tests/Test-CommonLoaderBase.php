@@ -10,20 +10,6 @@ use Webmozart\PathUtil\Path;
 
 class Test_CommonLoaderBase extends test_base
 {
-    public function setUp()
-    {
-        $this->get_vfs_root();
-    }
-
-    public function tearDown()
-    {
-        global $current_test_dir;
-        global $current_test_url;
-
-        $current_test_url = null;
-        $current_test_dir = null;
-    }
-
     private function _get_obj_for_testing()
     {
         return new  class extends CommonLoaderBase
