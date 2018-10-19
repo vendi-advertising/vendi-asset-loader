@@ -12,14 +12,13 @@ class Test_CssLoaderBase extends test_base
 {
     private function _get_obj_for_testing()
     {
-        return new  class extends CssLoaderBase
-                    {
-                        //We don't care about this here
-                        public function enqueue_files() : int
-                        {
-                            return -1;
-                        }
-                    }
+        return new class extends CssLoaderBase {
+            //We don't care about this here
+            public function enqueue_files() : int
+            {
+                return -1;
+            }
+        }
                 ;
     }
 
@@ -46,7 +45,7 @@ class Test_CssLoaderBase extends test_base
         $this->assertSame(2, $obj->enqueue_files_with_optional_type());
         $this->assertCount(2, $vendi_asset_styles);
 
-        foreach(['000-test', '100-test'] as $key){
+        foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
             $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];
@@ -105,7 +104,7 @@ class Test_CssLoaderBase extends test_base
         $this->assertSame(2, $obj->enqueue_files_with_optional_type('screen'));
         $this->assertCount(2, $vendi_asset_styles);
 
-        foreach(['000-test', '100-test'] as $key){
+        foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
             $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];

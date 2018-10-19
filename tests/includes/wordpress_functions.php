@@ -6,7 +6,7 @@ if (! function_exists('apply_filters')) {
     function apply_filters($tag, $value)
     {
         global $apply_filters_function;
-        if(!is_callable($apply_filters_function)){
+        if (!is_callable($apply_filters_function)) {
             return $value;
         }
 

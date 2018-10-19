@@ -46,7 +46,7 @@ class Test_TypedCssLoader extends test_base
         $this->assertSame(2, $obj->enqueue_files());
         $this->assertCount(2, $vendi_asset_styles);
 
-        foreach(['000-test' => 'screen', '100-test' => 'print'] as $key => $type){
+        foreach (['000-test' => 'screen', '100-test' => 'print'] as $key => $type) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
             $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];
@@ -66,7 +66,9 @@ class Test_TypedCssLoader extends test_base
     public function test_enqueue_files__invalid_type()
     {
         global $apply_filters_function;
-        $apply_filters_function = function(){return null;};
+        $apply_filters_function = function () {
+            return null;
+        };
 
         $obj = $this->_get_obj_for_testing();
 

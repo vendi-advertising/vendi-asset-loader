@@ -18,7 +18,7 @@ final class SortedJsLoader extends JsLoaderBase
 
         $count = 0;
         foreach ($high_low as $folder => $in_footer) {
-            $count += $this->enqueue_files_with_optional_high_low($folder, $in_footer);
+            $count += $this->enqueue_files_with_optional_high_low($in_footer, $folder);
         }
         return $count;
     }

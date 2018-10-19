@@ -66,5 +66,4 @@ class test_base extends TestCase
         $vendi_asset_scripts = null;
         $apply_filters_function = null;
     }
-
 }

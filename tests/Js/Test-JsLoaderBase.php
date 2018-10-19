@@ -12,14 +12,13 @@ class Test_JsLoaderBase extends test_base
 {
     private function _get_obj_for_testing()
     {
-        return new  class extends JsLoaderBase
-                    {
-                        //We don't care about this here
-                        public function enqueue_files() : int
-                        {
-                            return -1;
-                        }
-                    }
+        return new class extends JsLoaderBase {
+            //We don't care about this here
+            public function enqueue_files() : int
+            {
+                return -1;
+            }
+        }
                 ;
     }
 
@@ -46,7 +45,7 @@ class Test_JsLoaderBase extends test_base
         $this->assertSame(2, $obj->enqueue_files_with_optional_high_low(true));
         $this->assertCount(2, $vendi_asset_scripts);
 
-        foreach(['000-test', '100-test'] as $key){
+        foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-script', $vendi_asset_scripts);
             $this->assertInternalType('array', $vendi_asset_scripts[$key . '-script']);
             $sub = $vendi_asset_scripts[$key . '-script'];
@@ -55,7 +54,7 @@ class Test_JsLoaderBase extends test_base
             $this->assertSame('http://www.example.net/js/' . $key . '.js', array_shift($sub));
             $this->assertNull(array_shift($sub));
             $this->assertInternalType('integer', array_shift($sub));
-            $this->assertSame(true, array_shift($sub));
+            $this->assertTrue(array_shift($sub));
             $this->assertEmpty($sub);
         }
     }
@@ -102,20 +101,24 @@ class Test_JsLoaderBase extends test_base
         touch(Path::join($js_header_folder_abs, '000-test.js'));
         touch(Path::join($js_footer_folder_abs, '100-test.js'));
 
-        $files = ['000-test' => false, '100-test' => true];
+        $files = ['000-test' => ['in_footer' => false, 'folder' => 'header'], '100-test' => ['in_footer' => true, 'folder' => 'footer']];
 
         //Dir has two files that match pattern
         $obj = $this->_get_obj_for_testing();
-        $this->assertSame(2, $obj->enqueue_files_with_optional_high_low('screen'));
+        $this->assertSame(1, $obj->enqueue_files_with_optional_high_low(false, 'header'));
+        $this->assertSame(1, $obj->enqueue_files_with_optional_high_low(true, 'footer'));
         $this->assertCount(2, $vendi_asset_scripts);
 
-        foreach(['000-test' => false, '100-test' => true] as $key => $in_footer){
+        foreach ($files as $key => $more) {
+            $in_footer = $more['in_footer'];
+            $folder = $more['folder'];
+
             $this->assertArrayHasKey($key . '-script', $vendi_asset_scripts);
             $this->assertInternalType('array', $vendi_asset_scripts[$key . '-script']);
             $sub = $vendi_asset_scripts[$key . '-script'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-script', array_shift($sub));
-            $this->assertSame('http://www.example.net/js/screen/' . $key . '.js', array_shift($sub));
+            $this->assertSame('http://www.example.net/js/' . $folder . '/' . $key . '.js', array_shift($sub));
             $this->assertNull(array_shift($sub));
             $this->assertInternalType('integer', array_shift($sub));
             $this->assertSame($in_footer, array_shift($sub));

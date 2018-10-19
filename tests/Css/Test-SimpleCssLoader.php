@@ -37,7 +37,7 @@ class Test_SimpleCssLoader extends test_base
         $this->assertSame(2, $obj->enqueue_files());
         $this->assertCount(2, $vendi_asset_styles);
 
-        foreach(['000-test', '100-test'] as $key){
+        foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
             $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];

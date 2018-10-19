@@ -12,14 +12,13 @@ class Test_CommonLoaderBase extends test_base
 {
     private function _get_obj_for_testing()
     {
-        return new  class extends CommonLoaderBase
-                    {
-                        //We don't care about this here
-                        public function enqueue_files() : int
-                        {
-                            return -1;
-                        }
-                    }
+        return new class extends CommonLoaderBase {
+            //We don't care about this here
+            public function enqueue_files() : int
+            {
+                return -1;
+            }
+        }
                 ;
     }
 
