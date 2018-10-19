@@ -8,6 +8,11 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class JsLoaderBase extends CommonLoaderBase
 {
+    public function __construct()
+    {
+        parent::__construct(self::JS_LOADER);
+    }
+
     final public function enqueue_files_with_optional_high_low(bool $in_footer, string $extra_folder = null) : int
     {
         $files = $this->get_files('js', $extra_folder);
@@ -24,33 +29,6 @@ abstract class JsLoaderBase extends CommonLoaderBase
 
     final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, bool $in_footer) : int
     {
-        $count = 0;
-
-        //Load each CSS file that starts with three digits followed by a dash in numerical order
-        foreach ($files as $t) {
-            $count++;
-
-            $basename_with_extension    = \basename($t);
-            $basename_without_extension = \basename($t, '.js');
-
-            \wp_enqueue_script(
-                                //Handle
-                                "{$basename_without_extension}-script",
-
-                                //URL
-                                "{$media_url}/{$basename_with_extension}",
-
-                                //Dependencies
-                                null,
-
-                                //Version cache buster
-                                \filemtime("{$media_dir}/{$basename_with_extension}"),
-
-                                //Whether to load in the footer (true) or header (false)
-                                $in_footer
-                            );
-        }
-
-        return $count;
+        return $this->_actually_enqueue_files_impl('wp_enqueue_script', $files, $media_dir, $media_url, $in_footer);
     }
 }

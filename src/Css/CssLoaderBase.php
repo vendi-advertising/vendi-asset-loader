@@ -8,6 +8,11 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class CssLoaderBase extends CommonLoaderBase
 {
+    public function __construct()
+    {
+        parent::__construct(self::CSS_LOADER);
+    }
+
     final public function enqueue_files_with_optional_type(string $type = null) : int
     {
         $files = $this->get_files('css', $type);
@@ -26,31 +31,6 @@ abstract class CssLoaderBase extends CommonLoaderBase
 
     final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, string $type) : int
     {
-        $count = 0;
-        foreach ($files as $t) {
-            $count++;
-
-            $basename_with_extension    = \basename($t);
-            $basename_without_extension = \basename($t, '.css');
-
-            \wp_enqueue_style(
-                                //Handle
-                                "{$basename_without_extension}-style",
-
-                                //URL
-                                "{$media_url}/{$basename_with_extension}",
-
-                                //Dependencies
-                                null,
-
-                                //Version cache buster
-                                \filemtime("{$media_dir}/{$basename_with_extension}"),
-
-                                //Media type
-                                $type
-                            );
-        }
-
-        return $count;
+        return $this->_actually_enqueue_files_impl('wp_enqueue_style', $files, $media_dir, $media_url, $type);
     }
 }

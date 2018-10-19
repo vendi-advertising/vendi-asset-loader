@@ -9,7 +9,21 @@ use Webmozart\PathUtil\Path;
 
 abstract class CommonLoaderBase implements LoaderInterface
 {
+    public const CSS_LOADER = 'css';
+    public const JS_LOADER = 'js';
+
     abstract public function enqueue_files() : int;
+
+    private $_type;
+
+    public function __construct(string $type)
+    {
+        if (!in_array($type, [self::CSS_LOADER, self::JS_LOADER])) {
+            throw new \Exception('Unknown asset type: ' . $type);
+        }
+
+        $this->_type = $type;
+    }
 
     final public function _get_dir_and_url_tuple(string $file_type, string $extra_folder = null) : array
     {
@@ -66,5 +80,52 @@ abstract class CommonLoaderBase implements LoaderInterface
         }
 
         return $files;
+    }
+
+    final public function _actually_enqueue_files_impl(callable $func, iterable $files, string $media_dir, string $media_url, $last) : int
+    {
+        $count = 0;
+
+        $ext = null;
+        $type = null;
+
+        switch ($this->_type) {
+            case 'js':
+                $ext = $this->_type;
+                $type = 'script';
+                break;
+
+            case 'css':
+                $ext = $this->_type;
+                $type = 'style';
+                break;
+        }
+
+        foreach ($files as $t) {
+            $count++;
+
+            $basename_with_extension    = \basename($t);
+            $basename_without_extension = \basename($t, ".{$ext}");
+
+            $func(
+                    //Handle
+                    "{$basename_without_extension}-{$type}",
+
+                    //URL
+                    "{$media_url}/{$basename_with_extension}",
+
+                    //Dependencies
+                    null,
+
+                    //Version cache buster
+                    \filemtime("{$media_dir}/{$basename_with_extension}"),
+
+                    //Whether to load in the footer (true) or header (false)
+                    //for JS or media type for CSS
+                    $last
+                );
+        }
+
+        return $count;
     }
 }
