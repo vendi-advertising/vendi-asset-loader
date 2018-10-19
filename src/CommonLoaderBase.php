@@ -8,7 +8,7 @@ use Webmozart\PathUtil\Path;
 
 abstract class CommonLoaderBase implements LoaderInterface
 {
-    abstract public function enqueue_files();
+    abstract public function enqueue_files() : int;
 
     final public function get_files(string $file_type, string $extra_folder = null) : ?iterable
     {

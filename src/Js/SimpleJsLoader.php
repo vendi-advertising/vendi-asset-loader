@@ -6,8 +6,8 @@ namespace Vendi\VendiAssetLoader\Js;
 
 final class SimpleJsLoader extends JsLoaderBase
 {
-    public function enqueue_files()
+    public function enqueue_files() : int
     {
-        $this->enqueue_files_with_optional_high_low(true);
+        return $this->enqueue_files_with_optional_high_low(true);
     }
 }

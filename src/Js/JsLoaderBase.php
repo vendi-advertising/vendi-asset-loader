@@ -8,24 +8,28 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class JsLoaderBase extends CommonLoaderBase
 {
-    abstract public function enqueue_files();
+    abstract public function enqueue_files() : int;
 
-    final public function enqueue_files_with_optional_high_low(bool $in_footer, string $extra_folder = null)
+    final public function enqueue_files_with_optional_high_low(bool $in_footer, string $extra_folder = null) : int
     {
         $files = $this->get_files('js', $extra_folder);
 
         if (!$files) {
-            return;
+            return 0;
         }
 
         //Call the actual worker
-        $this->actually_enqueue_files($files, $media_dir, $media_url, $in_footer);
+        return $this->actually_enqueue_files($files, $media_dir, $media_url, $in_footer);
     }
 
-    final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, bool $in_footer)
+    final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, bool $in_footer) : int
     {
+        $count = 0;
+
         //Load each CSS file that starts with three digits followed by a dash in numerical order
         foreach ($files as $t) {
+            $count++;
+
             $basename_with_extension    = \basename($t);
             $basename_without_extension = \basename($t, '.js');
 
@@ -46,5 +50,7 @@ abstract class JsLoaderBase extends CommonLoaderBase
                                 $in_footer
                             );
         }
+
+        return $count;
     }
 }
