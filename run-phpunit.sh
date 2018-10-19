@@ -7,6 +7,7 @@
 RUN_LINT=true
 RUN_SEC=true
 RUN_PHP_CS=true
+RUN_PHP_UNIT=true
 while [[ $# -gt 0 ]]
 do
     key="$1"
@@ -19,6 +20,10 @@ do
 
             --no-lint)
                 RUN_LINT=false
+            ;;
+
+            --no-php-unit)
+                RUN_PHP_UNIT=false
             ;;
 
             *)
@@ -93,6 +98,22 @@ maybe_run_security_check()
     printf "\n";
 }
 
+maybe_run_php_unit()
+{
+    echo "Maybe running PHPUnit...";
+    if [ "$RUN_PHP_UNIT" = true ]; then
+    {
+        if [ -z "$GROUP" ]; then
+            ./vendor/bin/phpunit --coverage-html ./tests/logs/coverage/
+        else
+            ./vendor/bin/phpunit --coverage-html ./tests/logs/coverage/ --group $GROUP
+        fi
+    }
+    else
+        echo "skipping";
+    fi
+}
+
 if [ ! -d './vendor' ]; then
     composer update
 fi
@@ -100,3 +121,4 @@ fi
 maybe_run_linter;
 maybe_run_php_cs;
 maybe_run_security_check;
+maybe_run_php_unit;
