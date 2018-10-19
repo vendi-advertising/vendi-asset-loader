@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/vendi-advertising/vendi-asset-loader.svg?branch=master)](https://travis-ci.org/vendi-advertising/vendi-asset-loader)
 [![codecov](https://codecov.io/gh/vendi-advertising/vendi-asset-loader/branch/master/graph/badge.svg)](https://codecov.io/gh/vendi-advertising/vendi-asset-loader)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Maintainability](https://api.codeclimate.com/v1/badges/72f384ac770998fa5147/maintainability)](https://codeclimate.com/github/vendi-advertising/vendi-asset-loader/maintainability)
 
 ## Usage:
 
