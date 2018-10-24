@@ -10,11 +10,13 @@
 ### Standard/Simple
 For a standard simple setup with `css` and `js` folders off of the theme's root, and with files prefixed with three digits you can use the below. It will enqueue all CSS and `screen` and put all JS in the footer which is usually good enough for most scenarios.
 ```
+use function Vendi\VendiAssetLoader\load_simple_assets;
+
 add_action(
             'wp_enqueue_scripts',
             function()
             {
-                Vendi\VendiAssetLoader\VendiAssetLoader::load_simple_assets();
+                load_simple_assets();
             }
         );
 ```
@@ -22,11 +24,13 @@ add_action(
 ## Typed CSS:
 If you have sub folders in your CSS for `screen`, `all`, `print`, etc., you can use
 ```
+use function Vendi\VendiAssetLoader\load_typed_css;
+
 add_action(
             'wp_enqueue_scripts',
             function()
             {
-                Vendi\VendiAssetLoader\VendiAssetLoader::load_typed_css();
+                load_typed_css();
             }
         );
 ```
@@ -34,7 +38,8 @@ add_action(
 ## Sort JS:
 If you have sub folders in your JS for `header` and `footer` you can use:
 ```
-//Standard load for files in CSS and JS folders matching patterns \d\d\d-name.(js|cs)
+use function Vendi\VendiAssetLoader\load_sorted_js;
+
 add_action(
             'wp_enqueue_scripts',
             function()
