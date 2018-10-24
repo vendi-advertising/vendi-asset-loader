@@ -1,6 +1,7 @@
 {
     "name": "vendi-advertising/vendi-asset-loader",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Chris Haas",
