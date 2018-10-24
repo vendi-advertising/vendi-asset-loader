@@ -13,15 +13,26 @@ class Test_CommonLoaderBase extends test_base
     private function _get_obj_for_testing()
     {
         return new class extends CommonLoaderBase {
-            public function __construct()
-            {
-                parent::__construct(self::JS_LOADER);
-            }
-
             //We don't care about this here
             public function enqueue_files() : int
             {
                 return -1;
+            }
+
+            public function get_enqueue_function_for_specific_type() : callable
+            {
+                return function () {
+                };
+            }
+
+            public function get_extension_for_specific_type() : string
+            {
+                return '';
+            }
+
+            public function get_handle_suffix_for_specific_type() : string
+            {
+                return '';
             }
         }
                 ;

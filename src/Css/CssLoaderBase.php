@@ -8,9 +8,19 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class CssLoaderBase extends CommonLoaderBase
 {
-    public function __construct()
+    final public function get_enqueue_function_for_specific_type() : callable
     {
-        parent::__construct(self::CSS_LOADER);
+        return 'wp_enqueue_style';
+    }
+
+    final public function get_extension_for_specific_type() : string
+    {
+        return 'css';
+    }
+
+    final public function get_handle_suffix_for_specific_type() : string
+    {
+        return 'style';
     }
 
     final public function enqueue_files_with_optional_type(string $type = null) : int
@@ -27,10 +37,5 @@ abstract class CssLoaderBase extends CommonLoaderBase
         //TODO: Maybe change screen to all? Vendi has used screen so we might
         //want to keep that for backwards compatibility.
         return $this->actually_enqueue_files($files, $media_dir, $media_url, $type ? $type : 'screen');
-    }
-
-    final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, string $type) : int
-    {
-        return $this->_actually_enqueue_files_impl('wp_enqueue_style', $files, $media_dir, $media_url, $type);
     }
 }

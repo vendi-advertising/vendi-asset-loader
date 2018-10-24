@@ -8,9 +8,19 @@ use Vendi\VendiAssetLoader\CommonLoaderBase;
 
 abstract class JsLoaderBase extends CommonLoaderBase
 {
-    public function __construct()
+    final public function get_enqueue_function_for_specific_type() : callable
     {
-        parent::__construct(self::JS_LOADER);
+        return 'wp_enqueue_script';
+    }
+
+    final public function get_extension_for_specific_type() : string
+    {
+        return 'js';
+    }
+
+    final public function get_handle_suffix_for_specific_type() : string
+    {
+        return 'script';
     }
 
     final public function enqueue_files_with_optional_high_low(bool $in_footer, string $extra_folder = null) : int
@@ -25,10 +35,5 @@ abstract class JsLoaderBase extends CommonLoaderBase
 
         //Call the actual worker
         return $this->actually_enqueue_files($files, $media_dir, $media_url, $in_footer);
-    }
-
-    final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, bool $in_footer) : int
-    {
-        return $this->_actually_enqueue_files_impl('wp_enqueue_script', $files, $media_dir, $media_url, $in_footer);
     }
 }

@@ -9,20 +9,46 @@ use Webmozart\PathUtil\Path;
 
 abstract class CommonLoaderBase implements LoaderInterface
 {
-    public const CSS_LOADER = 'css';
-    public const JS_LOADER = 'js';
-
     abstract public function enqueue_files() : int;
 
-    private $_type;
+    abstract public function get_enqueue_function_for_specific_type() : callable;
 
-    public function __construct(string $type)
+    abstract public function get_extension_for_specific_type() : string;
+
+    abstract public function get_handle_suffix_for_specific_type() : string;
+
+    final public function actually_enqueue_files(iterable $files, string $media_dir, string $media_url, $p4) : int
     {
-        if (!in_array($type, [self::CSS_LOADER, self::JS_LOADER])) {
-            throw new \Exception('Unknown asset type: ' . $type);
+        $count = 0;
+
+        $ext_without_period = $this->get_extension_for_specific_type();
+        $handle_suffix = $this->get_handle_suffix_for_specific_type();
+        $enqueue_function = $this->get_enqueue_function_for_specific_type();
+
+        foreach ($files as $t) {
+            $count++;
+
+            $basename_with_extension    = \basename($t);
+            $basename_without_extension = \basename($t, '.' . $ext_without_period);
+
+            $enqueue_function(
+                                //Handle
+                                "{$basename_without_extension}-{$handle_suffix}",
+
+                                //URL
+                                "{$media_url}/{$basename_with_extension}",
+
+                                //Dependencies
+                                null,
+
+                                //Version cache buster
+                                \filemtime("{$media_dir}/{$basename_with_extension}"),
+
+                                $p4
+                            );
         }
 
-        $this->_type = $type;
+        return $count;
     }
 
     final public function _get_dir_and_url_tuple(string $file_type, string $extra_folder = null) : array
@@ -80,52 +106,5 @@ abstract class CommonLoaderBase implements LoaderInterface
         }
 
         return $files;
-    }
-
-    final public function _actually_enqueue_files_impl(callable $func, iterable $files, string $media_dir, string $media_url, $last) : int
-    {
-        $count = 0;
-
-        $ext = null;
-        $type = null;
-
-        switch ($this->_type) {
-            case 'js':
-                $ext = $this->_type;
-                $type = 'script';
-                break;
-
-            case 'css':
-                $ext = $this->_type;
-                $type = 'style';
-                break;
-        }
-
-        foreach ($files as $t) {
-            $count++;
-
-            $basename_with_extension    = \basename($t);
-            $basename_without_extension = \basename($t, ".{$ext}");
-
-            $func(
-                    //Handle
-                    "{$basename_without_extension}-{$type}",
-
-                    //URL
-                    "{$media_url}/{$basename_with_extension}",
-
-                    //Dependencies
-                    null,
-
-                    //Version cache buster
-                    \filemtime("{$media_dir}/{$basename_with_extension}"),
-
-                    //Whether to load in the footer (true) or header (false)
-                    //for JS or media type for CSS
-                    $last
-                );
-        }
-
-        return $count;
     }
 }
