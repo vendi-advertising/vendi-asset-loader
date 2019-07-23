@@ -10,6 +10,14 @@ use Webmozart\PathUtil\Path;
 
 class Test_Loader extends test_base
 {
+    public function test__get_env()
+    {
+        $this->assertFalse(\getenv('THEME_MODE'));
+        $this->assertSame('', (new Loader())->get_env('THEME_MODE'));
+        \putenv('THEME_MODE=dev');
+        $this->assertSame('dev', (new Loader())->get_env('THEME_MODE'));
+    }
+
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::get_theme_mode
      */
@@ -185,21 +193,7 @@ class Test_Loader extends test_base
         $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
         \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
 
-        $test_data = <<<EOT
-        {
-            "entrypoints": {
-                "main": {
-                    "js": [
-                        "/runtime.2e9ebe81.js",
-                        "/main.5b014969.js"
-                    ],
-                    "css": [
-                        "/main.add76d32.css"
-                    ]
-                }
-            }
-        }
-EOT;
+        $test_data = $this->get_test_json();
 
         \file_put_contents($entry_file, $test_data);
 
@@ -246,21 +240,7 @@ EOT;
         $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
         \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
 
-        $test_data = <<<EOT
-        {
-            "entrypoints": {
-                "main": {
-                    "js": [
-                        "/runtime.2e9ebe81.js",
-                        "/main.5b014969.js"
-                    ],
-                    "css": [
-                        "/main.add76d32.css"
-                    ]
-                }
-            }
-        }
-EOT;
+        $test_data = $this->get_test_json();
 
         \file_put_contents($entry_file, $test_data);
 
@@ -268,5 +248,192 @@ EOT;
 
         $this->assertInternalType('array', $entries);
         $this->assertCount(0, $entries);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     */
+    public function test__enqueue_css__production()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+        $current_test_url = 'https://example/';
+
+        \putenv('THEME_MODE=prod');
+
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = $this->get_test_json();
+
+        \file_put_contents($entry_file, $test_data);
+
+        (new Loader())->enqueue_css('main');
+
+        global $vendi_asset_styles;
+
+        $this->assertInternalType('array', $vendi_asset_styles);
+        $this->assertArrayHasKey('main.add76d32-style', $vendi_asset_styles);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     */
+    public function test__enqueue_css__production__default_entry()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+        $current_test_url = 'https://example/';
+
+        \putenv('THEME_MODE=prod');
+
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = $this->get_test_json();
+
+        \file_put_contents($entry_file, $test_data);
+
+        (new Loader())->enqueue_css();
+
+        global $vendi_asset_styles;
+
+        $this->assertInternalType('array', $vendi_asset_styles);
+        $this->assertArrayHasKey('main.add76d32-style', $vendi_asset_styles);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     */
+    public function test__enqueue_js__production()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+        $current_test_url = 'https://example/';
+
+        \putenv('THEME_MODE=prod');
+
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = $this->get_test_json();
+
+        \file_put_contents($entry_file, $test_data);
+
+        (new Loader())->enqueue_js('main');
+
+        global $vendi_asset_scripts;
+
+        $this->assertInternalType('array', $vendi_asset_scripts);
+        $this->assertArrayHasKey('runtime.2e9ebe81-script', $vendi_asset_scripts);
+        $this->assertArrayHasKey('main.5b014969-script', $vendi_asset_scripts);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     */
+    public function test__enqueue_js__production__default_entry()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+        $current_test_url = 'https://example/';
+
+        \putenv('THEME_MODE=prod');
+
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = $this->get_test_json();
+
+        \file_put_contents($entry_file, $test_data);
+
+        (new Loader())->enqueue_js();
+
+        global $vendi_asset_scripts;
+
+        $this->assertInternalType('array', $vendi_asset_scripts);
+        $this->assertArrayHasKey('runtime.2e9ebe81-script', $vendi_asset_scripts);
+        $this->assertArrayHasKey('main.5b014969-script', $vendi_asset_scripts);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     */
+    public function test__enqueue_css__dev()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_url = 'http://www.example.net/';
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+
+        $css_folder_abs = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'css'));
+
+        \mkdir($css_folder_abs);
+        \touch(Path::join($css_folder_abs, '000-test.css'));
+        \touch(Path::join($css_folder_abs, '100-test.css'));
+        \touch(Path::join($css_folder_abs, '100-test.js'));
+        \touch(Path::join($css_folder_abs, 'test.css'));
+
+        \putenv('THEME_MODE=dev');
+
+        (new Loader())->enqueue_css();
+
+        global $vendi_asset_styles;
+
+        $this->assertInternalType('array', $vendi_asset_styles);
+        $this->assertCount(2, $vendi_asset_styles);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     */
+    public function test__enqueue_js__dev()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_url = 'http://www.example.net/';
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+
+        $js_folder_abs = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'js'));
+
+        \mkdir($js_folder_abs);
+        \touch(Path::join($js_folder_abs, '000-test.css'));
+        \touch(Path::join($js_folder_abs, '100-test.css'));
+        \touch(Path::join($js_folder_abs, '100-test.js'));
+        \touch(Path::join($js_folder_abs, 'test.css'));
+
+        \putenv('THEME_MODE=dev');
+
+        (new Loader())->enqueue_js();
+
+        global $vendi_asset_scripts;
+
+        $this->assertInternalType('array', $vendi_asset_scripts);
+        $this->assertCount(1, $vendi_asset_scripts);
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_default
+     */
+    public function test__enqueue_default()
+    {
+        global $current_test_dir;
+        global $current_test_url;
+        $current_test_dir = vfsStream::url($this->get_root_dir_name_no_trailing_slash());
+        $current_test_url = 'https://example/';
+
+        //TODO: This is a really bad thing. It invokes code but isn't testing anything yet
+        Loader::enqueue_default();
+
+        global $vendi_asset_scripts;
+        global $vendi_asset_styles;
+
+        $this->assertNull($vendi_asset_scripts);
+        $this->assertNull($vendi_asset_scripts);
+
     }
 }

@@ -18,6 +18,25 @@ class test_base extends TestCase
     //This is an instance of the Virtual File System
     private $_root;
 
+    public function get_test_json()
+    {
+        return <<<EOT
+        {
+            "entrypoints": {
+                "main": {
+                    "js": [
+                        "/runtime.2e9ebe81.js",
+                        "/main.5b014969.js"
+                    ],
+                    "css": [
+                        "/main.add76d32.css"
+                    ]
+                }
+            }
+        }
+EOT;
+    }
+
     public function get_vfs_root()
     {
         if (!$this->_root) {

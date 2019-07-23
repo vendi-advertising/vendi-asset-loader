@@ -149,7 +149,7 @@ final class Loader
 
     public function enqueue_css(string $entry_name = null)
     {
-        if(self::THEME_MODE_ASSET_DYNAMIC === $THEME_CSS_MODE){
+        if(self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_css_mode()){
             $media_dir = $this->get_media_dir();
             $media_url = $this->get_media_url();
             $css_files = Glob::glob( $media_dir . '/css/[0-9][0-9][0-9]-*.css' );
@@ -174,22 +174,20 @@ final class Loader
             $entry_name = $this->get_webpack_default_entry_name();
         }
 
-        foreach($entrypoints['entrypoints'] as $name => $app){
-            if($name === $entry_name){
-                foreach($app as $type => $files){
-                    foreach($files as $file){
-                        switch ($type) {
-                            case 'css':
-                                wp_enqueue_style(
-                                                    basename( $file, '.css' ) . '-style',
-                                                    $file,
-                                                    null,
-                                                    null,
-                                                    'screen'
-                                                );
-                                break;
-                        }
-                    }
+        $app = $this->get_entries_by_name($entry_name);
+
+        foreach($app as $type => $files){
+            foreach($files as $file){
+                switch ($type) {
+                    case 'css':
+                        wp_enqueue_style(
+                                            basename( $file, '.css' ) . '-style',
+                                            $file,
+                                            null,
+                                            null,
+                                            'screen'
+                                        );
+                        break;
                 }
             }
         }
@@ -197,10 +195,10 @@ final class Loader
 
     public function enqueue_js(string $entry_name = null)
     {
-        if(self::THEME_MODE_ASSET_DYNAMIC === $THEME_CSS_MODE){
+        if(self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_js_mode()){
             $media_dir = $this->get_media_dir();
             $media_url = $this->get_media_url();
-            $js_files = glob( $media_dir . '/js/[0-9][0-9][0-9]-*.js' );
+            $js_files = Glob::glob( $media_dir . '/js/[0-9][0-9][0-9]-*.js' );
 
             if(false !== $js_files && count($js_files) > 0) {
                 //Load each JS file that starts with three digits followed by a dash in numerical order
@@ -222,22 +220,20 @@ final class Loader
             $entry_name = $this->get_webpack_default_entry_name();
         }
 
-        foreach($entrypoints['entrypoints'] as $name => $app){
-            if($name === $entry_name){
-                foreach($app as $type => $files){
-                    foreach($files as $file){
-                        switch ($type) {
-                            case 'js':
-                                wp_enqueue_script(
-                                                    basename( $file, '.js' ) . '-script',
-                                                    $file,
-                                                    null,
-                                                    null,
-                                                    true
-                                                );
-                                break;
-                        }
-                    }
+        $app = $this->get_entries_by_name($entry_name);
+
+        foreach($app as $type => $files){
+            foreach($files as $file){
+                switch ($type) {
+                    case 'js':
+                        wp_enqueue_script(
+                                            basename( $file, '.js' ) . '-script',
+                                            $file,
+                                            null,
+                                            null,
+                                            true
+                                        );
+                        break;
                 }
             }
         }
