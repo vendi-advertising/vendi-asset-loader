@@ -18,13 +18,13 @@
         "sensiolabs/security-checker": "^5",
         "symfony/var-dumper": "^4",
         "phpunit/phpunit": "^7",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "johnkary/phpunit-speedtrap": "^3.0"
     },
     "config": {
         "optimize-autoloader": true
     },
     "autoload": {
-        "psr-4": {"Vendi\\VendiAssetLoader\\": "src/"},
-        "files": ["src/Functions.php"]
+        "psr-4": {"Vendi\\VendiAssetLoader\\": "src/"}
     }
 }

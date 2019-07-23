@@ -50,6 +50,8 @@ class test_base extends TestCase
         $apply_filters_function = null;
 
         $this->get_vfs_root();
+
+        $this->reset_env();
     }
 
     public function tearDown()
@@ -65,5 +67,16 @@ class test_base extends TestCase
         $vendi_asset_styles = null;
         $vendi_asset_scripts = null;
         $apply_filters_function = null;
+
+        $this->reset_env();
+    }
+
+    private function reset_env()
+    {
+        \putenv('THEME_MODE');
+        \putenv('THEME_CSS_MODE');
+        \putenv('THEME_JS_MODE');
+        \putenv('THEME_WEBPACK_ENTRY_FILE');
+        \putenv('THEME_WEBPACK_ENTRY_DEFAULT');
     }
 }

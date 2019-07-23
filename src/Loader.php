@@ -22,9 +22,18 @@ final class Loader
     private $_media_dir;
     private $_media_url;
 
+    public function get_env(string $name) : string
+    {
+        $ret = \getenv($name);
+        if(false === $ret){
+            return '';
+        }
+        return $ret;
+    }
+
     public function get_theme_mode() : string
     {
-        switch(\mb_strtolower(\getenv('THEME_MODE'))){
+        switch(\mb_strtolower($this->get_env('THEME_MODE'))){
             case self::THEME_MODE_PROD:
             case self::THEME_MODE_PRODUCTION_LEGACY:
                 return self::THEME_MODE_PROD;
@@ -40,11 +49,11 @@ final class Loader
     public function get_theme_css_mode() : string
     {
         //In the production env, assets must always use the builder
-        if(THEME_MODE_PROD === $this->get_theme_mode()) {
+        if(self::THEME_MODE_PROD === $this->get_theme_mode()) {
             return self::THEME_MODE_ASSET_STATIC;
         }
 
-        switch(\mb_strtolower(\getenv('THEME_CSS_MODE'))){
+        switch(\mb_strtolower($this->get_env('THEME_CSS_MODE'))){
             case self::THEME_MODE_ASSET_STATIC:
                 return self::THEME_MODE_ASSET_STATIC;
 
@@ -56,11 +65,11 @@ final class Loader
     public function get_theme_js_mode() : string
     {
         //In the production env, assets must always use the builder
-        if(THEME_MODE_PROD === $this->get_theme_mode()) {
+        if(self::THEME_MODE_PROD === $this->get_theme_mode()) {
             return self::THEME_MODE_ASSET_STATIC;
         }
 
-        switch(\mb_strtolower(\getenv('THEME_JS_MODE'))){
+        switch(\mb_strtolower($this->get_env('THEME_JS_MODE'))){
             case self::THEME_MODE_ASSET_STATIC:
                 return self::THEME_MODE_ASSET_STATIC;
 
@@ -72,7 +81,7 @@ final class Loader
     public function get_media_dir() : string
     {
         if(!$this->_media_dir) {
-            $this->_media_dir = untrailingslashit( get_template_directory() );
+            $this->_media_dir = \untrailingslashit( \get_template_directory() );
         }
 
         return $this->_media_dir;
@@ -81,7 +90,7 @@ final class Loader
     public function get_media_url() : string
     {
         if(!$this->_media_url) {
-            $this->_media_url = untrailingslashit( get_template_directory_uri() );
+            $this->_media_url = \untrailingslashit( \get_template_directory_uri() );
         }
 
         return $this->_media_url;
@@ -89,9 +98,15 @@ final class Loader
 
     public function get_webpack_entry_file() : string
     {
-        $entry = \getenv('THEME_WEBPACK_ENTRY_FILE');
+        $entry = $this->get_env('THEME_WEBPACK_ENTRY_FILE');
         if($entry){
-            //If $entry is absolute, the second parameter is ignored
+
+            //I don't like this but Path::isAbsolute doesn't support stream wrappers
+            if(\is_file($entry)){
+                return $entry;
+            }
+
+            //makeAbsolute doesn't work against streams, apparently
             return Path::makeAbsolute($entry, $this->get_media_dir());
         }
 
@@ -101,8 +116,12 @@ final class Loader
 
     public function get_webpack_default_entry_name() : string
     {
-        $name = \getenv('THEME_WEBPACK_ENTRY_DEFAULT');
-        return $name ?? self::DEFAULT_WEBPACK_ENTRY_NAME;
+        $name = $this->get_env('THEME_WEBPACK_ENTRY_DEFAULT');
+        if($name){
+            return $name;
+        }
+
+        return self::DEFAULT_WEBPACK_ENTRY_NAME;
     }
 
     public function get_entries_by_name(string $entry_name) : array
