@@ -222,4 +222,51 @@ EOT;
         (new Loader())->get_entries_by_name('main');
     }
 
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::get_entries_by_name
+     */
+    public function test__get_entries_by_name__invalid_json_exception()
+    {
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = 'BAD DATA';
+
+        \file_put_contents($entry_file, $test_data);
+
+        $this->expectException(\Exception::class);
+        (new Loader())->get_entries_by_name('main');
+    }
+
+    /**
+     * @covers \Vendi\VendiAssetLoader\Loader::get_entries_by_name
+     */
+    public function test__get_entries_by_name__nothing_found()
+    {
+        $entry_file = vfsStream::url(Path::join($this->get_root_dir_name_no_trailing_slash(), 'entry.json'));
+        \putenv("THEME_WEBPACK_ENTRY_FILE=${entry_file}");
+
+        $test_data = <<<EOT
+        {
+            "entrypoints": {
+                "main": {
+                    "js": [
+                        "/runtime.2e9ebe81.js",
+                        "/main.5b014969.js"
+                    ],
+                    "css": [
+                        "/main.add76d32.css"
+                    ]
+                }
+            }
+        }
+EOT;
+
+        \file_put_contents($entry_file, $test_data);
+
+        $entries = (new Loader())->get_entries_by_name('cheese');
+
+        $this->assertInternalType('array', $entries);
+        $this->assertCount(0, $entries);
+    }
 }
