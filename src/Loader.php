@@ -146,29 +146,28 @@ final class Loader
         return [];
     }
 
-    public function enqueue_css(string $entry_name = null)
+    public function enqueue_css_dynamic()
     {
-        if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_css_mode()) {
-            $media_dir = $this->get_media_dir();
-            $media_url = $this->get_media_url();
-            $css_files = Glob::glob($media_dir . '/css/[0-9][0-9][0-9]-*.css');
+        $media_dir = $this->get_media_dir();
+        $media_url = $this->get_media_url();
+        $css_files = Glob::glob($media_dir . '/css/[0-9][0-9][0-9]-*.css');
 
-            if (false !== $css_files && count($css_files) > 0) {
-                //Load each CSS file that starts with three digits followed by a dash in numerical order
-                foreach ($css_files as $t) {
-                    wp_enqueue_style(
-                        basename($t, '.css') . '-p-style',
-                        $media_url . '/css/' . basename($t),
-                        null,
-                        filemtime($media_dir . '/css/' . basename($t)),
-                        'screen'
-                                    );
-                }
+        if (false !== $css_files && count($css_files) > 0) {
+            //Load each CSS file that starts with three digits followed by a dash in numerical order
+            foreach ($css_files as $t) {
+                wp_enqueue_style(
+                    basename($t, '.css') . '-p-style',
+                    $media_url . '/css/' . basename($t),
+                    null,
+                    filemtime($media_dir . '/css/' . basename($t)),
+                    'screen'
+                                );
             }
-
-            return;
         }
+    }
 
+    public function enqueue_css_static(string $entry_name = null)
+    {
         if (!$entry_name) {
             $entry_name = $this->get_webpack_default_entry_name();
         }
@@ -192,29 +191,38 @@ final class Loader
         }
     }
 
-    public function enqueue_js(string $entry_name = null)
+    public function enqueue_css(string $entry_name = null)
     {
-        if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_js_mode()) {
-            $media_dir = $this->get_media_dir();
-            $media_url = $this->get_media_url();
-            $js_files = Glob::glob($media_dir . '/js/[0-9][0-9][0-9]-*.js');
-
-            if (false !== $js_files && count($js_files) > 0) {
-                //Load each JS file that starts with three digits followed by a dash in numerical order
-                foreach ($js_files as $t) {
-                    wp_enqueue_script(
-                        basename($t, '.js') . '-p-style',
-                        $media_url . '/js/' . basename($t),
-                        null,
-                        filemtime($media_dir . '/js/' . basename($t)),
-                        true
-                                    );
-                }
-            }
-
-            return;
+        if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_css_mode()) {
+            $this->enqueue_css_dynamic();
+        }else{
+            $this->enqueue_css_static($entry_name);
         }
 
+    }
+
+    public function enqueue_js_dynamic()
+    {
+        $media_dir = $this->get_media_dir();
+        $media_url = $this->get_media_url();
+        $js_files = Glob::glob($media_dir . '/js/[0-9][0-9][0-9]-*.js');
+
+        if (false !== $js_files && count($js_files) > 0) {
+            //Load each JS file that starts with three digits followed by a dash in numerical order
+            foreach ($js_files as $t) {
+                wp_enqueue_script(
+                    basename($t, '.js') . '-p-style',
+                    $media_url . '/js/' . basename($t),
+                    null,
+                    filemtime($media_dir . '/js/' . basename($t)),
+                    true
+                                );
+            }
+        }
+    }
+
+    public function enqueue_js_static(string $entry_name = null)
+    {
         if (!$entry_name) {
             $entry_name = $this->get_webpack_default_entry_name();
         }
@@ -235,6 +243,15 @@ final class Loader
                         break;
                 }
             }
+        }
+    }
+
+    public function enqueue_js(string $entry_name = null)
+    {
+        if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_js_mode()) {
+            $this->enqueue_js_dynamic();
+        }else{
+            $this->enqueue_js_static();
         }
     }
 

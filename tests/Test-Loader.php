@@ -252,6 +252,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css_static
      */
     public function test__enqueue_css__production()
     {
@@ -279,6 +280,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css_static
      */
     public function test__enqueue_css__production__default_entry()
     {
@@ -306,6 +308,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js_static
      */
     public function test__enqueue_js__production()
     {
@@ -334,6 +337,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js_static
      */
     public function test__enqueue_js__production__default_entry()
     {
@@ -362,6 +366,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_css_dynamic
      */
     public function test__enqueue_css__dev()
     {
@@ -390,6 +395,7 @@ class Test_Loader extends test_base
 
     /**
      * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js
+     * @covers \Vendi\VendiAssetLoader\Loader::enqueue_js_dynamic
      */
     public function test__enqueue_js__dev()
     {
