@@ -43,8 +43,7 @@ abstract class CommonLoaderBase implements LoaderInterface
 
                                 //Version cache buster
                                 \filemtime("{$media_dir}/{$basename_with_extension}"),
-
-                                $p4
+                $p4
                             );
         }
 
