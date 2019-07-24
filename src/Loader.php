@@ -195,10 +195,9 @@ final class Loader
     {
         if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_css_mode()) {
             $this->enqueue_css_dynamic();
-        }else{
+        } else {
             $this->enqueue_css_static($entry_name);
         }
-
     }
 
     public function enqueue_js_dynamic()
@@ -250,7 +249,7 @@ final class Loader
     {
         if (self::THEME_MODE_ASSET_DYNAMIC === $this->get_theme_js_mode()) {
             $this->enqueue_js_dynamic();
-        }else{
+        } else {
             $this->enqueue_js_static();
         }
     }
