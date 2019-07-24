@@ -5,14 +5,43 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72f384ac770998fa5147/maintainability)](https://codeclimate.com/github/vendi-advertising/vendi-asset-loader/maintainability)
 
-Version 1 was a more complex version that supported multiple loading paths. It has since been rewritten to be much simpler and follow common patterns with less customizations (that were almost never used). Please only use version 2 going forward.
+Version 1 was a more complex version that supported multiple loading paths. It has since been rewritten to be much simpler and follow common patterns with less customizations (that were almost never used). Please only use version 2 going forward. You can find the [version 1 documention here](./docs/v1.md).
 
-## Install:
+## Install
 ```composer require vendi-advertising/vendi-asset-loader:^2```
 
-## Usage:
+## Configure
+The asset loader relies almost completely on the following environment variables.
 
-### v2
+*NOTE!* This module does not actually perform logic related to `.env` files, it is up to the theme to handle this if needed. Generally speaking, however, you can usually create a file named `.env.local` with these values to override. Otherwise the system assumes true environment variables.
+
+  * `THEME_MODE`
+    * Supported values:
+      * `prod` - Forces both `THEME_CSS_MODE` and `THEME_JS_MODE` into `static` mode
+      * `stage` - No difference currently
+      * `dev` (_default_) - No difference currently
+  * `THEME_CSS_MODE`
+    * Supported values:
+      * `dynamic` (_default_) - Loads CSS files from the `/css/` relative to the path theme root following the glob pattern `/css/[0-9][0-9][0-9]-*.css`
+      * `static` - Loads CSS files as defined in the webpack encore entry file
+    * Usage notes:
+      * If `THEME_MODE` is set to `prod`, this configured value is ignore and instead `static` is always used
+  * `THEME_JS_MODE`
+    * Supported values:
+      * `dynamic` (_default_) - Loads JS files from the `/js/` relative to the path theme root following the glob pattern `/js/[0-9][0-9][0-9]-*.js`
+      * `static` - Loads JS files as defined in the webpack encore entry file
+    * Usage notes:
+      * If `THEME_MODE` is set to `prod`, this configured value is ignore and instead `static` is always used
+  * `THEME_WEBPACK_ENTRY_FILE`
+    * Supported values:
+      * Either the absolute path to the webpack file or a path relative to the theme's root
+      * Default: `./static/build/entrypoints.json`
+  * `THEME_WEBPACK_ENTRY_DEFAULT`
+    * Supported values:
+      * The name for the theme's default entry that should represent the bulk of the CSS and JS required to load the site.
+      * Default: `main`
+
+## Usage
 ```
 add_action(
             'wp_enqueue_scripts',
@@ -23,74 +52,3 @@ add_action(
         );
 
 ```
-
-### v1 (deprecated)
-#### Standard/Simple
-For a standard simple setup with `css` and `js` folders off of the theme's root, and with files prefixed with three digits you can use the below. It will enqueue all CSS and `screen` and put all JS in the footer which is usually good enough for most scenarios.
-```
-use function Vendi\VendiAssetLoader\load_simple_assets;
-
-add_action(
-            'wp_enqueue_scripts',
-            function()
-            {
-                load_simple_assets();
-            }
-        );
-```
-
-#### Typed CSS:
-If you have sub folders in your CSS for `screen`, `all`, `print`, etc., you can use
-```
-use function Vendi\VendiAssetLoader\load_typed_css;
-
-add_action(
-            'wp_enqueue_scripts',
-            function()
-            {
-                load_typed_css();
-            }
-        );
-```
-
-#### Sort JS:
-If you have sub folders in your JS for `header` and `footer` you can use:
-```
-use function Vendi\VendiAssetLoader\load_sorted_js;
-
-add_action(
-            'wp_enqueue_scripts',
-            function()
-            {
-                Vendi\VendiAssetLoader\VendiAssetLoader::load_sorted_js();
-            }
-        );
-```
-
-### Hooks
-
-#### CSS file search pattern
- * Hook: `vendi/asset_loader/get_css_pattern`
- * Default: `[0-9][0-9][0-9]-*.css`
- 
-#### JS file search pattern
- * Hook: `vendi/asset_loader/get_js_pattern`
- * Default: `[0-9][0-9][0-9]-*.js`
-
-#### Root dir for all relative paths
- * Hook: `vendi/asset_loader/get_media_dir_abs`
- * Default: `get_template_directory()`
- * Note: This directory is appended with the type for CSS and the header/footer folders for JS
-
-#### Root URL for all relative paths
- * Hook: `vendi/asset_loader/get_media_url_abs`
- * Default: `get_template_directory_uri()`
- * Note: This URL is appended with the type for CSS and the header/footer folders for JS
-
-#### Folders for header/footer JS
- * Hook: `vendi/asset_loader/get_js_sorted_folders`
- * Default: `['header' => false, 'footer' => true]`
- 
-#### Folders for media types for CSS
- * Hook: `vendi/asset_loader/get_css_media_types`
- * Default: `['screen', 'all', 'print']`
