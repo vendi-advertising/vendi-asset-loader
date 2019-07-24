@@ -83,7 +83,7 @@ maybe_run_security_check()
     if [ "$RUN_SEC" = true ]; then
     {
         echo "running...";
-        vendor/bin/security-checker security:check --end-point=http://security.sensiolabs.org/check_lock --timeout=30 ./composer.lock
+        ./vendor/bin/security-checker security:check
         if [ $? -ne 0 ]; then
         {
             echo "Error with security checker... exiting";
