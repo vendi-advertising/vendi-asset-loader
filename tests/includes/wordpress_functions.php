@@ -57,3 +57,10 @@ if (!function_exists('wp_enqueue_style')) {
         $vendi_asset_styles[$handle] = [$handle, $url, $deps, $version, $media];
     }
 }
+
+
+if (!function_exists('untrailingslashit')) {
+    function untrailingslashit( $string ) {
+        return rtrim( $string, '/\\' );
+    }
+}

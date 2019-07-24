@@ -18,6 +18,25 @@ class test_base extends TestCase
     //This is an instance of the Virtual File System
     private $_root;
 
+    public function get_test_json()
+    {
+        return <<<EOT
+        {
+            "entrypoints": {
+                "main": {
+                    "js": [
+                        "/runtime.2e9ebe81.js",
+                        "/main.5b014969.js"
+                    ],
+                    "css": [
+                        "/main.add76d32.css"
+                    ]
+                }
+            }
+        }
+EOT;
+    }
+
     public function get_vfs_root()
     {
         if (!$this->_root) {
@@ -50,6 +69,8 @@ class test_base extends TestCase
         $apply_filters_function = null;
 
         $this->get_vfs_root();
+
+        $this->reset_env();
     }
 
     public function tearDown()
@@ -65,5 +86,16 @@ class test_base extends TestCase
         $vendi_asset_styles = null;
         $vendi_asset_scripts = null;
         $apply_filters_function = null;
+
+        $this->reset_env();
+    }
+
+    private function reset_env()
+    {
+        \putenv('THEME_MODE');
+        \putenv('THEME_CSS_MODE');
+        \putenv('THEME_JS_MODE');
+        \putenv('THEME_WEBPACK_ENTRY_FILE');
+        \putenv('THEME_WEBPACK_ENTRY_DEFAULT');
     }
 }

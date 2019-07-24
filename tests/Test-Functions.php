@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Vendi\VendiAssetLoader\tests;
 
 use org\bovigo\vfs\vfsStream;
-use Webmozart\PathUtil\Path;
 use function Vendi\VendiAssetLoader\load_simple_assets;
 use function Vendi\VendiAssetLoader\load_sorted_js;
 use function Vendi\VendiAssetLoader\load_typed_css;
+use Webmozart\PathUtil\Path;
 
 class Test_Functions extends test_base
 {
