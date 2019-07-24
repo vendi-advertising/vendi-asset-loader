@@ -131,12 +131,11 @@ final class Loader
             throw new \Exception('Please run "yarn install && yarn encore production" before continuing');
         }
 
-        try {
-            $entrypoints = json_decode(file_get_contents($file_to_load), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\Exception $ex) {
+
+        $entrypoints = json_decode(file_get_contents($file_to_load), true, 512);
+        if (json_last_error()) {
             throw new \Exception('The main webpack entry file could not be loaded. Please rebuild it.');
         }
-
 
         foreach ($entrypoints['entrypoints'] as $name => $app) {
             if ($name === $entry_name) {
