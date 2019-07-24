@@ -434,6 +434,5 @@ class Test_Loader extends test_base
 
         $this->assertNull($vendi_asset_scripts);
         $this->assertNull($vendi_asset_scripts);
-
     }
 }

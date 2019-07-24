@@ -60,7 +60,8 @@ if (!function_exists('wp_enqueue_style')) {
 
 
 if (!function_exists('untrailingslashit')) {
-    function untrailingslashit( $string ) {
-        return rtrim( $string, '/\\' );
+    function untrailingslashit($string)
+    {
+        return rtrim($string, '/\\');
     }
 }
