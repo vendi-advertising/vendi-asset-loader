@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "symfony/dotenv": "^4.3",
+        "symfony/dotenv": "^4.3|^5",
         "symfony/polyfill-php71": "^1.9",
         "webmozart/glob": "^4.1",
         "webmozart/path-util": "^2.3"
@@ -21,7 +21,7 @@
         "mikey179/vfsstream": "^1.6",
         "phpunit/phpunit": "^7",
         "sensiolabs/security-checker": "^6",
-        "symfony/var-dumper": "^4"
+        "symfony/var-dumper": "^4|^5"
     },
     "config": {
         "optimize-autoloader": true
