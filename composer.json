@@ -1,6 +1,7 @@
 {
     "name": "vendi-advertising/vendi-asset-loader",
     "type": "library",
+    "description": "Dynamically enqueue CSS and JS files",
     "license": "MIT",
     "authors": [
         {
