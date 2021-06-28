@@ -48,13 +48,13 @@ class Test_SortedJsLoader extends test_base
             $folder = $more['folder'];
 
             $this->assertArrayHasKey($key . '-script', $vendi_asset_scripts);
-            $this->assertInternalType('array', $vendi_asset_scripts[$key . '-script']);
+            $this->assertIsArray($vendi_asset_scripts[$key . '-script']);
             $sub = $vendi_asset_scripts[$key . '-script'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-script', array_shift($sub));
             $this->assertSame('http://www.example.net/js/' . $folder . '/' . $key . '.js', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertSame($in_footer, array_shift($sub));
             $this->assertEmpty($sub);
         }

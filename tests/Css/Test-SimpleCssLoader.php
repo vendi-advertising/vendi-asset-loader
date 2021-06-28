@@ -39,13 +39,13 @@ class Test_SimpleCssLoader extends test_base
 
         foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
-            $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
+            $this->assertIsArray($vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-style', array_shift($sub));
             $this->assertSame('http://www.example.net/css/' . $key . '.css', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertSame('screen', array_shift($sub));
             $this->assertEmpty($sub);
         }
