@@ -33,4 +33,4 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: ./vendor/bin/phpunit
+      run: XDEBUG_MODE=coverage ./vendor/bin/phpunit
