@@ -44,8 +44,9 @@ EOT;
                 $this->get_root_dir_name_no_trailing_slash(),
                 null,
                 []
-                                        );
+            );
         }
+
         return $this->_root;
     }
 
@@ -54,7 +55,7 @@ EOT;
         return $this->_test_root_name;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         global $current_test_dir;
         global $current_test_url;
@@ -73,7 +74,7 @@ EOT;
         $this->reset_env();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         global $current_test_dir;
         global $current_test_url;

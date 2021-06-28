@@ -14,28 +14,27 @@ class Test_CommonLoaderBase extends test_base
     {
         return new class extends CommonLoaderBase {
             //We don't care about this here
-            public function enqueue_files() : int
+            public function enqueue_files(): int
             {
                 return -1;
             }
 
-            public function get_enqueue_function_for_specific_type() : callable
+            public function get_enqueue_function_for_specific_type(): callable
             {
                 return function () {
                 };
             }
 
-            public function get_extension_for_specific_type() : string
+            public function get_extension_for_specific_type(): string
             {
                 return '';
             }
 
-            public function get_handle_suffix_for_specific_type() : string
+            public function get_handle_suffix_for_specific_type(): string
             {
                 return '';
             }
-        }
-                ;
+        };
     }
 
     /**
@@ -53,7 +52,7 @@ class Test_CommonLoaderBase extends test_base
 
         $ret = $obj->_get_dir_and_url_tuple('cheese');
 
-        $this->assertInternalType('array', $ret);
+        $this->assertIsArray($ret);
         $this->assertArrayHasKey('media_dir', $ret);
         $this->assertArrayHasKey('media_url', $ret);
         $this->assertSame('http://www.example.net/cheese', $ret['media_url']);
@@ -80,7 +79,7 @@ class Test_CommonLoaderBase extends test_base
 
         $ret = $obj->_get_dir_and_url_tuple('cheese', 'beta');
 
-        $this->assertInternalType('array', $ret);
+        $this->assertIsArray($ret);
         $this->assertArrayHasKey('media_dir', $ret);
         $this->assertArrayHasKey('media_url', $ret);
         $this->assertSame('http://www.example.net/cheese/beta', $ret['media_url']);

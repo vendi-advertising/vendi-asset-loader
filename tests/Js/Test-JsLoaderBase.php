@@ -14,12 +14,11 @@ class Test_JsLoaderBase extends test_base
     {
         return new class extends JsLoaderBase {
             //We don't care about this here
-            public function enqueue_files() : int
+            public function enqueue_files(): int
             {
                 return -1;
             }
-        }
-                ;
+        };
     }
 
     /**
@@ -47,13 +46,13 @@ class Test_JsLoaderBase extends test_base
 
         foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-script', $vendi_asset_scripts);
-            $this->assertInternalType('array', $vendi_asset_scripts[$key . '-script']);
+            $this->assertIsArray($vendi_asset_scripts[$key . '-script']);
             $sub = $vendi_asset_scripts[$key . '-script'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-script', array_shift($sub));
             $this->assertSame('http://www.example.net/js/' . $key . '.js', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertTrue(array_shift($sub));
             $this->assertEmpty($sub);
         }
@@ -114,13 +113,13 @@ class Test_JsLoaderBase extends test_base
             $folder = $more['folder'];
 
             $this->assertArrayHasKey($key . '-script', $vendi_asset_scripts);
-            $this->assertInternalType('array', $vendi_asset_scripts[$key . '-script']);
+            $this->assertIsArray($vendi_asset_scripts[$key . '-script']);
             $sub = $vendi_asset_scripts[$key . '-script'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-script', array_shift($sub));
             $this->assertSame('http://www.example.net/js/' . $folder . '/' . $key . '.js', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertSame($in_footer, array_shift($sub));
             $this->assertEmpty($sub);
         }

@@ -14,12 +14,11 @@ class Test_CssLoaderBase extends test_base
     {
         return new class extends CssLoaderBase {
             //We don't care about this here
-            public function enqueue_files() : int
+            public function enqueue_files(): int
             {
                 return -1;
             }
-        }
-                ;
+        };
     }
 
     /**
@@ -47,13 +46,13 @@ class Test_CssLoaderBase extends test_base
 
         foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
-            $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
+            $this->assertIsArray($vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-style', array_shift($sub));
             $this->assertSame('http://www.example.net/css/' . $key . '.css', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertSame('screen', array_shift($sub));
             $this->assertEmpty($sub);
         }
@@ -106,13 +105,13 @@ class Test_CssLoaderBase extends test_base
 
         foreach (['000-test', '100-test'] as $key) {
             $this->assertArrayHasKey($key . '-style', $vendi_asset_styles);
-            $this->assertInternalType('array', $vendi_asset_styles[$key . '-style']);
+            $this->assertIsArray($vendi_asset_styles[$key . '-style']);
             $sub = $vendi_asset_styles[$key . '-style'];
             $this->assertCount(5, $sub);
             $this->assertSame($key . '-style', array_shift($sub));
             $this->assertSame('http://www.example.net/css/screen/' . $key . '.css', array_shift($sub));
             $this->assertNull(array_shift($sub));
-            $this->assertInternalType('integer', array_shift($sub));
+            $this->assertIsInt(array_shift($sub));
             $this->assertSame('screen', array_shift($sub));
             $this->assertEmpty($sub);
         }
