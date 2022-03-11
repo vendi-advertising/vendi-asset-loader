@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Vendi\VendiAssetLoader;
 
-use Webmozart\Glob\Glob;
-use Webmozart\PathUtil\Path;
+//use Webmozart\Glob\Glob;
+use Symfony\Component\Filesystem\Path;
 
 abstract class CommonLoaderBase implements LoaderInterface
 {
@@ -52,7 +52,7 @@ abstract class CommonLoaderBase implements LoaderInterface
 
     final public function _get_dir_and_url_tuple(string $file_type, string $extra_folder = null) : array
     {
-        //By default we'll assume that we're relative to the theme's root
+        //By default, we'll assume that we're relative to the theme's root
         $default_dir = Path::join(\get_template_directory(), $file_type);
         $default_url = Path::join(\get_template_directory_uri(), $file_type);
 
