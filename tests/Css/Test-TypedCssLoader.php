@@ -6,7 +6,7 @@ namespace Vendi\VendiAssetLoader\tests;
 
 use org\bovigo\vfs\vfsStream;
 use Vendi\VendiAssetLoader\Css\TypedCssLoader;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class Test_TypedCssLoader extends test_base
 {
