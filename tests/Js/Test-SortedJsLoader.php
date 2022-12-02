@@ -6,7 +6,7 @@ namespace Vendi\VendiAssetLoader\tests;
 
 use org\bovigo\vfs\vfsStream;
 use Vendi\VendiAssetLoader\Js\SortedJsLoader;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class Test_SortedJsLoader extends test_base
 {

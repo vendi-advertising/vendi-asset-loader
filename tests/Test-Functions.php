@@ -8,7 +8,7 @@ use org\bovigo\vfs\vfsStream;
 use function Vendi\VendiAssetLoader\load_simple_assets;
 use function Vendi\VendiAssetLoader\load_sorted_js;
 use function Vendi\VendiAssetLoader\load_typed_css;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class Test_Functions extends test_base
 {
