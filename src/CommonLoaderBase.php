@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Vendi\VendiAssetLoader;
 
+use Symfony\Component\Filesystem\Path;
 use Webmozart\Glob\Glob;
-use Webmozart\PathUtil\Path;
 
 abstract class CommonLoaderBase implements LoaderInterface
 {

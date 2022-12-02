@@ -6,7 +6,7 @@ namespace Vendi\VendiAssetLoader\tests;
 
 use org\bovigo\vfs\vfsStream;
 use Vendi\VendiAssetLoader\CommonLoaderBase;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 class Test_CommonLoaderBase extends test_base
 {
