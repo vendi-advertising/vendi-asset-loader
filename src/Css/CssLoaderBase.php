@@ -31,11 +31,12 @@ abstract class CssLoaderBase extends CommonLoaderBase
             return 0;
         }
 
-        extract($this->_get_dir_and_url_tuple('css', $type));
+        $result = $this->_get_dir_and_url_tuple('css', $type);
+        extract($result);
 
         //Call the actual worker. If we weren't given a type assume it is just screen
         //TODO: Maybe change screen to all? Vendi has used screen so we might
         //want to keep that for backwards compatibility.
-        return $this->actually_enqueue_files($files, $media_dir, $media_url, $type ? $type : 'screen');
+        return $this->actually_enqueue_files($files, $media_dir, $media_url, $type ?: 'screen');
     }
 }

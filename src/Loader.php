@@ -6,15 +6,19 @@ namespace Vendi\VendiAssetLoader;
 
 use Webmozart\Glob\Glob;
 
+use function get_template_directory;
+use function get_template_directory_uri;
+use function untrailingslashit;
+
 final class Loader
 {
-    private $_media_dir;
-    private $_media_url;
+    private ?string $_media_dir = null;
+    private ?string $_media_url = null;
 
     public function get_media_dir(): string
     {
         if (!$this->_media_dir) {
-            $this->_media_dir = \untrailingslashit(\get_template_directory());
+            $this->_media_dir = untrailingslashit(get_template_directory());
         }
 
         return $this->_media_dir;
@@ -23,13 +27,13 @@ final class Loader
     public function get_media_url(): string
     {
         if (!$this->_media_url) {
-            $this->_media_url = \untrailingslashit(\get_template_directory_uri());
+            $this->_media_url = untrailingslashit(get_template_directory_uri());
         }
 
         return $this->_media_url;
     }
 
-    public function enqueue_css_dynamic()
+    public function enqueue_css_dynamic(): void
     {
         $media_dir = $this->get_media_dir();
         $media_url = $this->get_media_url();
@@ -49,12 +53,12 @@ final class Loader
         }
     }
 
-    public function enqueue_css(string $entry_name = null)
+    public function enqueue_css(): void
     {
         $this->enqueue_css_dynamic();
     }
 
-    public function enqueue_js_dynamic()
+    public function enqueue_js_dynamic(): void
     {
         $media_dir = $this->get_media_dir();
         $media_url = $this->get_media_url();
@@ -74,12 +78,12 @@ final class Loader
         }
     }
 
-    public function enqueue_js(string $entry_name = null)
+    public function enqueue_js(): void
     {
         $this->enqueue_js_dynamic();
     }
 
-    public static function enqueue_default()
+    public static function enqueue_default(): void
     {
         $obj = new self();
         $obj->enqueue_css();

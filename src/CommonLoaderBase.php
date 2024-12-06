@@ -52,7 +52,7 @@ abstract class CommonLoaderBase implements LoaderInterface
 
     final public function _get_dir_and_url_tuple(string $file_type, string $extra_folder = null) : array
     {
-        //By default we'll assume that we're relative to the theme's root
+        //By default, we'll assume that we're relative to the theme's root
         $default_dir = Path::join(\get_template_directory(), $file_type);
         $default_url = Path::join(\get_template_directory_uri(), $file_type);
 
@@ -78,7 +78,8 @@ abstract class CommonLoaderBase implements LoaderInterface
             throw new \Exception('Method _get_files only support CSS and JS');
         }
 
-        extract($this->_get_dir_and_url_tuple($file_type, $extra_folder));
+        $result = $this->_get_dir_and_url_tuple($file_type, $extra_folder);
+        extract($result);
 
         //Sanity check that we actually have a directory. The typed loader tests
         //for common media types however we don't require each type to have

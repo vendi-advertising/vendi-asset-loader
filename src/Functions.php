@@ -9,7 +9,7 @@ use Vendi\VendiAssetLoader\Css\TypedCssLoader;
 use Vendi\VendiAssetLoader\Js\SimpleJsLoader;
 use Vendi\VendiAssetLoader\Js\SortedJsLoader;
 
-function load_simple_assets()
+function load_simple_assets(): void
 {
     $loaders = [
                     new SimpleCssLoader(),
@@ -21,12 +21,12 @@ function load_simple_assets()
     }
 }
 
-function load_typed_css()
+function load_typed_css(): void
 {
     (new TypedCssLoader())->enqueue_files();
 }
 
-function load_sorted_js()
+function load_sorted_js(): void
 {
     (new SortedJsLoader())->enqueue_files();
 }
